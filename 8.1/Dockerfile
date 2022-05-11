@@ -14,7 +14,7 @@ RUN curl -Lo /usr/local/bin/pickle https://github.com/FriendsOfPHP/pickle/releas
 # Custom PHP requirements
 RUN set -x \
     && mkdir -p /data \
-    && apk --update add tar curl openssl sed libbz2 libxslt bzip2 libzip libuuid postgresql-dev icu-dev gettext-dev curl-dev libxml2-dev openldap-dev libpng libjpeg-turbo yaml libuuid oniguruma-dev gnu-libiconv \
+    && apk --update add tar curl openssl sed libbz2 libxslt bzip2 libzip libuuid postgresql-dev icu-dev gettext-dev curl-dev libxml2-dev openldap-dev libpng libjpeg-turbo yaml libuuid oniguruma-dev gnu-libiconv git \
     && apk add --virtual .phpize-deps $PHPIZE_DEPS libxslt-dev libzip-dev bzip2-dev libmcrypt-dev imagemagick-dev libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev
 RUN docker-php-ext-configure gd \
       --with-freetype \
