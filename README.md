@@ -4,7 +4,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/eneserk/php)](https://hub.docker.com/r/eneserk/php)
 [![Docker Image Size](https://img.shields.io/docker/image-size/eneserk/php)](https://hub.docker.com/r/eneserk/php)
 
-The Docker-Image is [available on Docker Hub](https://hub.docker.com/r/eneserk/php).
+The Docker-Image is [available on Docker Hub](https://hub.docker.com/r/eneserk/php) and in the [GitHub Container-Registry](https://github.com/erkenes/docker-php-fpm-alpine/pkgs/container/docker-php-fpm-alpine%2Fphp).
 
 ---
 
