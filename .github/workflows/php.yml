@@ -53,7 +53,13 @@ jobs:
         with:
           context: ./php/${{ matrix.version }}-fpm-alpine
           push: true
-          tags: erkenes/php:${{ matrix.version }}-fpm-alpine,ghcr.io/erkenes/php:${{ matrix.version }}-fpm-alpine
+          tags: erkenes/php:${{ matrix.version }}-fpm-alpine
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Push image to GHCR
+        run: |
+          docker buildx imagetools create \
+            --tag ghcr.io/erkenes/php:${{ matrix.version }}-fpm-alpine \
+            erkenes/php:${{ matrix.version }}-fpm-alpine
