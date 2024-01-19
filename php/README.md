@@ -13,7 +13,6 @@ This image was built for the [Neos-Flow-Framework](https://flow.neos.io/) and th
 It supports the following addons:
 - composer
 - git
-- pickle
 - imagick, gd
 - redis
 - pdo

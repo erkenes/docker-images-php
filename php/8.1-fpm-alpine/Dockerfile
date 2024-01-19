@@ -1,24 +1,20 @@
 FROM php:8.1-fpm-alpine
 
 # Build arguments
-ARG PHP_REDIS_VERION="5.3.7"
-ARG PHP_YAML_VERION="2.2.2"
-ARG PICKLE_VERSION=0.7.9
+ARG PHP_REDIS_VERION="6.0.2"
+ARG PHP_YAML_VERION="2.2.3"
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
-
-# install pickle
-RUN curl -Lo /usr/local/bin/pickle https://github.com/FriendsOfPHP/pickle/releases/download/v${PICKLE_VERSION}/pickle.phar && \
-    chmod +x /usr/local/bin/pickle
 
 # Custom PHP requirements
 RUN set -x \
     && mkdir -p /data \
-    && apk --update add tar curl openssl sed libbz2 libxslt bzip2 libzip libuuid postgresql-dev icu-dev gettext-dev curl-dev libxml2-dev openldap-dev libpng libjpeg-turbo yaml libuuid oniguruma-dev gnu-libiconv git \
+    && apk --update add tar curl openssl sed libbz2 libxslt bzip2 libzip libuuid postgresql-dev icu-dev icu-data-full gettext-dev curl-dev libxml2-dev openldap-dev libpng libjpeg-turbo yaml libuuid oniguruma-dev gnu-libiconv libwebp-dev \
     && apk add --virtual .phpize-deps $PHPIZE_DEPS libxslt-dev libzip-dev bzip2-dev libmcrypt-dev imagemagick-dev libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev
 RUN docker-php-ext-configure gd \
       --with-freetype \
-      --with-jpeg
+      --with-jpeg \
+      --with-webp
 RUN docker-php-ext-install \
       gd \
       pdo_mysql \
@@ -32,20 +28,17 @@ RUN docker-php-ext-install \
       pcntl \
       xsl \
       soap \
-      sockets \
-    && docker-php-ext-configure zip \
+      sockets
+RUN docker-php-ext-configure zip \
     && docker-php-ext-install zip \
-    && docker-php-ext-configure ldap --with-libdir=lib/
-RUN docker-php-ext-install ldap
-RUN pickle install imagick \
-  && pickle install redis-${PHP_REDIS_VERION} \
-  && pickle install yaml-${PHP_YAML_VERION} \
-  && pickle install uuid
+    && docker-php-ext-configure ldap --with-libdir=lib/ \
+    && docker-php-ext-install ldap
+RUN pecl install imagick redis-${PHP_REDIS_VERION} yaml-${PHP_YAML_VERION} uuid
 RUN docker-php-ext-enable imagick \
     && docker-php-ext-enable redis \
     && docker-php-ext-enable yaml \
-    && docker-php-ext-enable uuid \
-    && apk add --virtual .imagick-runtime-deps imagemagick \
+    && docker-php-ext-enable uuid
+RUN apk add --virtual .imagick-runtime-deps imagemagick \
     && apk del .phpize-deps
 
 # install composer
