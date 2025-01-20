@@ -50,7 +50,7 @@ jobs:
             ghcr.io/erkenes/php
 
       - name: Build and push PHP ${{ matrix.version }} Image
-        uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0
+        uses: docker/build-push-action@67a2d409c0a876cbe6b11854e3e25193efe4e62d
         with:
           context: ./php/${{ matrix.version }}-fpm-alpine
           push: true
